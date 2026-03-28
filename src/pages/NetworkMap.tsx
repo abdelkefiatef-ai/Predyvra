@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/src/components/ui/card";
 import { Badge } from "@/src/components/ui/badge";
 import { Server, Printer, Laptop, ShieldAlert, Network } from "lucide-react";
+import { mockNodes, mockEdges } from "@/src/lib/mockData";
 
 interface Node {
   id: string;
@@ -38,7 +39,9 @@ export default function NetworkMap() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching map data:", err);
+        console.error("Error fetching map data, using mock data:", err);
+        setNodes(mockNodes);
+        setEdges(mockEdges);
         setLoading(false);
       });
   }, []);

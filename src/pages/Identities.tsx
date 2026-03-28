@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/src/components/ui/card";
 import { Badge } from "@/src/components/ui/badge";
 import { Users, Shield } from "lucide-react";
+import { mockIdentities } from "@/src/lib/mockData";
 
 interface Identity {
   id: string;
@@ -31,7 +32,8 @@ export default function Identities() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching identities:", err);
+        console.error("Error fetching identities, using mock data:", err);
+        setIdentities(mockIdentities);
         setLoading(false);
       });
   }, []);
