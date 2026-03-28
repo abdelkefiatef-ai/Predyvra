@@ -2,19 +2,41 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# AI Sentinel - Cybersecurity War-Gaming Platform
 
-This contains everything you need to run your app locally.
+An AI-powered cybersecurity platform that continuously war-games your network to detect threats before they happen.
 
-View your app in AI Studio: https://ai.studio/apps/a91cfd58-5c1b-4be6-b7e7-76efe180a7f2
+## Features
+
+- Digital Twin Network Mapping
+- Identity & Privilege Management
+- Real-time Telemetry Monitoring
+- AI-Powered War Game Simulations
+- Automated Threat Detection
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
-
+**Prerequisites:** Node.js 18+
 
 1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+   ```bash
+   npm install
+   ```
+
+2. Configure environment variables in `.env`:
+   - `LLM_API_KEY` - Your OpenAI or compatible LLM API key (required for simulations)
+   - `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD` - Optional Neo4j database for advanced topology storage
+
 3. Run the app:
-   `npm run dev`
+   ```bash
+   npm run dev
+   ```
+
+4. Open http://localhost:3000
+
+## Environment Variables
+
+See `.env` file for all available configuration options:
+- **LLM Configuration**: Required for War Game simulations
+- **Neo4j Configuration**: Optional for graph database storage
+- **Supabase Configuration**: Pre-configured for the platform

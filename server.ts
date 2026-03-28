@@ -21,14 +21,16 @@ if (process.env.NEO4J_URI && process.env.NEO4J_USERNAME && process.env.NEO4J_PAS
     );
     neo4jDriver.verifyConnectivity().then(() => {
       console.log("Connected to Neo4j successfully");
-    }).catch((e) => {
-      console.error("Failed to verify Neo4j connectivity:", e);
+    }).catch((e: any) => {
+      console.error("Failed to verify Neo4j connectivity:", e.message || e);
       neo4jDriver = null;
     });
-  } catch (e) {
-    console.error("Failed to initialize Neo4j driver:", e);
+  } catch (e: any) {
+    console.error("Failed to initialize Neo4j driver:", e.message || e);
     neo4jDriver = null;
   }
+} else {
+  console.log("Neo4j configuration not found - using in-memory storage");
 }
 
 async function syncToNeo4j(nodes: any[], edges: any[]) {
@@ -50,14 +52,14 @@ async function syncToNeo4j(nodes: any[], edges: any[]) {
       SET r.isGhostEdge = coalesce(edge.isGhostEdge, false)
     `, { edges });
     console.log("Successfully synced topology to Neo4j");
-  } catch (err) {
-    console.error("Error syncing to Neo4j:", err);
+  } catch (err: any) {
+    console.error("Error syncing to Neo4j:", err.message || err);
   } finally {
     if (session) {
       try {
         await session.close();
-      } catch (e) {
-        console.error("Error closing Neo4j session:", e);
+      } catch (e: any) {
+        console.error("Error closing Neo4j session:", e.message || e);
       }
     }
   }
@@ -185,30 +187,30 @@ async function startServer() {
         session = neo4jDriver.session();
         const nodesRes = await session.run(`MATCH (n:Node) RETURN n.id AS id, n.type AS type, n.isCrownJewel AS isCrownJewel`);
         const edgesRes = await session.run(`MATCH (s:Node)-[r:CONNECTED_TO]->(t:Node) RETURN s.id AS source, t.id AS target, r.isGhostEdge AS isGhostEdge`);
-        
+
         const dbNodes = nodesRes.records.map(r => ({
           id: r.get('id'),
           type: r.get('type'),
           isCrownJewel: r.get('isCrownJewel')
         }));
-        
+
         const dbEdges = edgesRes.records.map(r => ({
           source: r.get('source'),
           target: r.get('target'),
           isGhostEdge: r.get('isGhostEdge')
         }));
-        
+
         if (dbNodes.length > 0) {
           return res.json({ nodes: dbNodes, edges: dbEdges });
         }
-      } catch (err) {
-        console.error("Error reading from Neo4j:", err);
+      } catch (err: any) {
+        console.error("Error reading from Neo4j:", err.message || err);
       } finally {
         if (session) {
           try {
             await session.close();
-          } catch (e) {
-            console.error("Error closing Neo4j session:", e);
+          } catch (e: any) {
+            console.error("Error closing Neo4j session:", e.message || e);
           }
         }
       }
