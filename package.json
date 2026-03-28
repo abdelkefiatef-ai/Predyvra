@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx server.ts",
+    "dev": "vite",
+    "dev:server": "tsx server.ts",
     "start": "node dist/server.cjs",
     "build": "vite build && npx esbuild server.ts --bundle --platform=node --target=node18 --outfile=dist/server.cjs",
     "preview": "vite preview",
